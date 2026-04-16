@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Viewport, Metadata } from "next";
 import { Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/layout/AppShell";
@@ -21,6 +21,14 @@ export const metadata: Metadata = {
   keywords: ["productivity", "task manager", "pomodoro", "habit tracker", "calendar"],
 };
 
+export const viewport: Viewport = {
+  themeColor: "#06060B",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,7 +40,6 @@ export default function RootLayout({
       className={`${outfit.variable} ${jetbrainsMono.variable} dark`}
     >
       <head>
-        <meta name="theme-color" content="#06060B" />
       </head>
       <body
         className="min-h-screen antialiased"
