@@ -127,6 +127,8 @@ body {
   backdrop-filter: blur(24px) saturate(1.2);
   -webkit-backdrop-filter: blur(24px) saturate(1.2);
   border: 1px solid var(--border-glass);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
 }
 
 .glass-light {
@@ -134,6 +136,8 @@ body {
   backdrop-filter: blur(16px) saturate(1.1);
   -webkit-backdrop-filter: blur(16px) saturate(1.1);
   border: 1px solid var(--border-subtle);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
 }
 
 .glass-card {
@@ -147,6 +151,8 @@ body {
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-lg);
   transition: all 0.4s var(--ease-out-expo);
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
 }
 
 .glass-card:hover {
@@ -261,11 +267,13 @@ body {
   bottom: -50%;
   width: 200%;
   height: 200%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 9999;
   animation: grain 8s steps(10) infinite;
-  opacity: 0.4;
+  opacity: 0.3;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -311,6 +319,8 @@ body {
 .cmd-backdrop {
   background: rgba(6, 6, 11, 0.85);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translateZ(0);
 }
 
 /* Toast entrance */
@@ -415,5 +425,41 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Mobile Performance Optimizations
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .glass {
+    backdrop-filter: blur(12px) saturate(1.1);
+    -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  }
+
+  .glass-light {
+    backdrop-filter: blur(8px) saturate(1.05);
+    -webkit-backdrop-filter: blur(8px) saturate(1.05);
+  }
+
+  .glass-card {
+    backdrop-filter: blur(12px) saturate(1.1);
+    -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  }
+
+  /* Simplify the grain overlay on mobile for smoother scrolls */
+  .grain-overlay::before {
+    opacity: 0.15;
+    animation: none; /* Disabling animation on mobile to save battery and CPU lag */
+  }
+
+  /* Downgrade heavy shadow animations */
+  .animate-neon-pulse {
+    animation-duration: 4s; /* Slower pulse */
+  }
+
+  * {
+    /* Prevent bouncy scroll on mobile safari which can cause layout shifts */
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
